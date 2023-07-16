@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_svg/flutter_svg.dart';
 import 'list.dart';
+import 'package:collection/collection.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -10,162 +11,347 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> with TickerProviderStateMixin {
+  List<GridList> filteredData = [];
+  bool isSelected = false;
+
   @override
   Widget build(BuildContext context) {
-    TabController _tabController = TabController(length: 4, vsync: this);
-
     return Scaffold(
-        body: Stack(children: <Widget>[
-      Container(
-        color: Colors.blue,
-        height: 200,
-      ),
-      Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        elevation: 10.0,
-        margin: EdgeInsets.only(left: 20.0, right: 20.0, top: 150.0),
-        child: Container(
-          height: 100,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 30, left: 20, right: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  children: [
-                    Text('Ваш баланс'),
-                    Text(
-                      '\$2,700',
-                      style:
-                          TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                    )
-                  ],
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 200),
+              child: CircleAvatar(
+                radius: 25,
+                backgroundColor: Color(0xffF5F5F5),
+                child: IconButton(
+                  iconSize: 50,
+                  icon: SvgPicture.asset('assets/Draw/menu2.svg'),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 20),
-                  child: Icon(
-                    Icons.visibility,
-                    color: Colors.blue,
-                  ),
-                )
-              ],
+              ),
             ),
-          ),
+            SizedBox(
+              height: 100,
+              child: DrawerHeader(
+                child: ListTile(
+                  leading: CircleAvatar(
+                    backgroundImage: AssetImage('assets/Draw/profile.png'),
+                  ),
+                  title: Text('Hemendra '),
+                  subtitle: Row(
+                    children: [
+                      Text('Verifled profile'),
+                      SizedBox(
+                        width: 4,
+                      ),
+                      CircleAvatar(
+                        radius: 4,
+                        backgroundImage: AssetImage('assets/Draw/Badge.png'),
+                      )
+                    ],
+                  ),
+                  trailing: Container(
+                    child: Center(
+                      child: Text(
+                        '3 Orders',
+                        style: TextStyle(fontSize: 10, color: Colors.black87),
+                      ),
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Color(0xffF5F5F5),
+                    ),
+                    width: 55,
+                    height: 30,
+                  ),
+                ),
+              ),
+            ),
+            ...List.generate(DrawList.listinfo.length, (index) {
+              return ListTile(
+                onTap: () {},
+                leading: SvgPicture.asset(DrawList.listinfo[index].icon),
+                title: Text(DrawList.listinfo[index].text),
+              );
+            }),
+            SizedBox(
+              height: 250,
+            ),
+            ListTile(
+              iconColor: Colors.red,
+              leading: Icon(Icons.logout),
+              title: Text(
+                'Logout',
+                style: TextStyle(color: Colors.red),
+              ),
+            ),
+          ],
         ),
       ),
-      Positioned(
-        top: 0.0,
-        left: 0.0,
-        right: 0.0,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(70.0),
         child: AppBar(
-          toolbarHeight: 100,
+          leadingWidth: 100,
+          leading: Builder(
+            builder: (BuildContext context) {
+              return CircleAvatar(
+                radius: 40,
+                backgroundColor: Color(0xffF5F5F5),
+                child: IconButton(
+                  icon: SvgPicture.asset('assets/Icon/menu.svg'),
+                  onPressed: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                ),
+              );
+            },
+          ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 5),
+              child: CircleAvatar(
+                radius: 50,
+                backgroundColor: Color(0xffF5F5F5),
+                child: IconButton(
+                  icon: SvgPicture.asset(
+                    'assets/Icon/Bag.svg',
+                  ),
+                  onPressed: () {},
+                ),
+              ),
+            )
+          ],
+          foregroundColor: Colors.black,
           backgroundColor: Colors.transparent,
-          elevation: 0.0,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  CircleAvatar(
-                    backgroundColor: Colors.white,
-                    radius: 22.0,
-                    child: CircleAvatar(
-                      radius: 20.0,
-                      backgroundImage: NetworkImage(
-                          'https://cdn.uzwiki.net/person/rayhon_1642089401.jpg'),
+          elevation: 0,
+        ),
+      ),
+      body: ListView(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 25, top: 20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Hemendra',
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: 4,
+                ),
+                Text(
+                  'Welcone to Laza.',
+                  style: TextStyle(fontSize: 13, color: Colors.grey),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    Container(
+                      width: 320,
+                      height: 50,
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(15),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color(0xffF5F5F5),
+                          ),
+                        ],
+                      ),
+                      child: TextField(
+                        style: TextStyle(fontSize: 14),
+                        onChanged: (s) {
+                          setState(() {
+                            filteredData = GridList.listinfo
+                                .where((element) => element.brand.contains(s))
+                                .toList();
+                          });
+                        },
+                        decoration: InputDecoration(
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.only(left: 14, top: 5),
+                            child: SvgPicture.asset('assets/Icon/Search.svg',
+                                height: 20, width: 20, fit: BoxFit.scaleDown),
+                          ),
+                          contentPadding: EdgeInsets.only(left: 10, top: 20),
+                          border: InputBorder.none,
+                          hintText: 'Search by brand...',
+                        ),
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Container(
+                      child: SvgPicture.asset('assets/Icon/Voice.svg',
+                          height: 20, width: 20, fit: BoxFit.scaleDown),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: Color(0xff9775FA),
+                      ),
+                      height: 50,
+                      width: 50,
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Rayhon Ganiyeva",
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      SizedBox(
-                        height: 5,
+                        'Choose Brand',
+                        style: TextStyle(fontWeight: FontWeight.w600),
                       ),
                       Text(
-                        'ID:987654321',
-                        style: TextStyle(color: Colors.white70, fontSize: 15),
+                        'View All',
+                        style: TextStyle(color: Colors.grey),
                       ),
                     ],
                   ),
-                ],
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50),
-                  color: Colors.white.withOpacity(0.2),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: CircleAvatar(
-                    radius: 15,
-                    backgroundColor: Colors.white.withOpacity(0.2),
-                    backgroundImage: NetworkImage(
-                        'https://www.nicepng.com/png/full/78-784644_circular-question-mark-button-question-mark-icon-white.png'),
+                SizedBox(
+                  height: 15,
+                ),
+                SizedBox(
+                  height: 50,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      ...List.generate(BrandList.listinfo.length, (index) {
+                        final brand = BrandList.listinfo[index];
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 10),
+                          child: FilterChip(
+                            shape: BeveledRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            backgroundColor: brand.isSelected
+                                ? Color(0xff9775FA)
+                                : Color(0xffF5F5F5),
+                            selected: isSelected,
+                            onSelected: (e) {
+                              setState(() {
+                                if (brand.isSelected) {
+                                  brand.isSelected = false;
+                                  filteredData.clear();
+                                  return;
+                                }
+                                if (BrandList.listinfo.firstWhereOrNull(
+                                        (element) => element.isSelected) !=
+                                    null) {
+                                  BrandList.listinfo
+                                      .lastWhere(
+                                          (element) => element.isSelected)
+                                      .isSelected = false;
+                                }
+                                brand.isSelected = e;
+                                if (brand.isSelected) {
+                                  filteredData = GridList.listinfo
+                                      .where((element) =>
+                                          element.brand == brand.brand)
+                                      .toList();
+                                }
+                              });
+                            },
+                            label: Row(
+                              children: [
+                                Container(
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: Colors.white,
+                                    ),
+                                    width: 40,
+                                    height: 40,
+                                    child: SvgPicture.asset(
+                                      BrandList.listinfo[index].icon,
+                                    )),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  brand.text,
+                                  style: TextStyle(
+                                      color: brand.isSelected
+                                          ? Colors.white
+                                          : null),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      }),
+                    ],
                   ),
                 ),
-              ),
-            ],
+                SizedBox(
+                  height: 15,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'New Arrial',
+                        style: TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                      Text(
+                        'View All',
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-      ),
-      Padding(
-        padding: const EdgeInsets.only(top: 270),
-        child: Container(
-            height: 70,
-            child: TabBar(
-                controller: _tabController,
-                indicatorColor: Colors.blue,
-                labelColor: Colors.blue,
-                unselectedLabelColor: Colors.grey,
-                tabs: [
-                  ...List.generate(TabList.listinfo.length, (index) {
-                    return Tab(
-                      iconMargin: EdgeInsets.all(5),
-                      icon: TabList.listinfo[index].tabIcon,
-                      text: TabList.listinfo[index].tabText,
-                    );
-                  })
-                ])),
-      ),
-      Padding(
-        padding: const EdgeInsets.only(top: 330),
-        child: TabBarView(controller: _tabController, children: [
           GridView.builder(
-              padding: EdgeInsets.all(24),
+              shrinkWrap: true,
+              padding: EdgeInsets.only(left: 20, top: 20),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: (1 / 1.5),
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10),
-              itemCount: 4,
+                crossAxisCount: 2,
+                childAspectRatio: (160 / 237),
+              ),
+              itemCount: filteredData.isEmpty
+                  ? GridList.listinfo.length
+                  : filteredData.length,
               itemBuilder: (context, index) {
+                final product = filteredData.isEmpty
+                    ? GridList.listinfo[index]
+                    : filteredData[index];
                 return Stack(children: [
                   Container(
-                    height: 180,
+                    height: 223,
+                    width: 180,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(10),
                         image: DecorationImage(
                             fit: BoxFit.cover,
-                            image: NetworkImage(
-                                ViewList.listinfo[index].viewImage))),
+                            image: AssetImage(product.viewImage))),
                   ),
                   Positioned(
-                      top: 12,
-                      right: 12,
-                      child: Icon(
-                        Icons.favorite_outline,
-                        color: Colors.white,
-                      )),
+                    top: 12,
+                    right: 40,
+                    child: SvgPicture.asset('assets/Icon/Heart.svg',
+                        height: 20, width: 20, fit: BoxFit.scaleDown),
+                  ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 180, left: 10),
+                    padding:
+                        const EdgeInsets.only(top: 220, left: 10, right: 20),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -174,30 +360,13 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                           height: 10,
                         ),
                         Text(
-                          ViewList.listinfo[index].viewTitle,
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          product.viewTitle,
                         ),
-                        SizedBox(
-                          height: 2,
-                        ),
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.star,
-                              color: Colors.orangeAccent,
-                            ),
-                            Text(ViewList.listinfo[index].viewRate)
-                          ],
-                        ),
-                        SizedBox(
-                          height: 2,
-                        ),
-                        Text(ViewList.listinfo[index].viewText2),
                         SizedBox(
                           height: 2,
                         ),
                         Text(
-                          ViewList.listinfo[index].viewPrice,
+                          product.viewPrice,
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         SizedBox(
@@ -208,11 +377,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                   ),
                 ]);
               }),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-        ]),
+        ],
       ),
-    ]));
+    );
   }
 }
